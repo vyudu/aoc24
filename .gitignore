@@ -1,2 +1,4 @@
 input
 temp.hs
+*.hi
+*.o
