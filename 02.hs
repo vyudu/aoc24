@@ -17,7 +17,7 @@ isStable (x:y:xs) =
     in all (stableDiff sgn) $ zipWith (-) (x:y:xs) (y:xs)
 
 isDampStable :: [Int] -> Bool
-isDampStable (x:y:xs)
+isDampStable l
     | length badlevels == 0 = True
     | length badlevels == 1 = True
     | length baddiffs == 1 = any (\(x,y) -> stableDiff sgn $ uncurry (+) (x,y)) badlevels
@@ -25,7 +25,7 @@ isDampStable (x:y:xs)
         True -> stableDiff sgn (sum baddiffs)
         False -> False
     | otherwise = False
-    where diffs = zipWith (-) (x:y:xs) (y:xs)
+    where diffs = zipWith (-) l (tail l)
           sgn = signum $ sum (map signum diffs)
           baddiffs = filter (not . stableDiff sgn) diffs
           badlevels = filter (\(x,y) -> (not $ stableDiff sgn x) || (not $ stableDiff sgn y)) (zip diffs (tail diffs))
